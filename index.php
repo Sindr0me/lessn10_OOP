@@ -1,8 +1,8 @@
 <?php
-class ForAll
+class All
 {
     protected $nameForAll;
-    protected $WTF;
+    protected $whatIsItName;
 
     public function setNameForAll($nameForAll) 
     {
@@ -14,23 +14,24 @@ class ForAll
         echo 'Имя объекта: ', $this->nameForAll, PHP_EOL;
     }
 
-    public function setWTF($WTF) 
+    public function setWhatIsIt($whatIsItName) 
     {
-        $this->WTF = $WTF;
+        $this->whatIsItName = $whatIsItName;
     }
 
-    public function getWTF() 
+    public function getWhatIsIt() 
     {
-        echo 'Это - ', $this->WTF, PHP_EOL;
+        echo 'Это - ', $this->whatIsItName, PHP_EOL;
     }
 }
 
-interface ForCar {
+interface ForCar 
+{
     public function getMaxSpeed();
     public function getPrice();
     public function getColor();
     public function getFuel();
-    public function getPriceWithFuel95();            //добавлен интерфейс-----------------
+    public function getPriceWithFuel95();
     public function getPriceWithFuel93();
     public function getPriceWithFuel92();
 }
@@ -38,8 +39,8 @@ interface ForCar {
 class Car implements ForCar
 {
     public $color = 'Черный';
-    private $maxSpeed = 240;   #скорость км в ч
-    private $price = 40000;   #цена в долларах
+    private $maxSpeed = 240;
+    private $price = 40000;
     private $fuel = [95, 92, 93];
     private $discount = [0, 10, 20, 50];
     const WHEELS = 4;
@@ -76,7 +77,9 @@ class Car implements ForCar
     public function getPriceWithFuel92()
     {
         
-        if ($this->fuel[1] == 92){ echo "Цена мазды с бензином 92: ", $this->price - ($this->price * $this->discount[2] / 100), '$';
+        if ($this->fuel[1] == 92)
+        { 
+            echo "Цена мазды с бензином 92: ", $this->price - ($this->price * $this->discount[2] / 100), '$';
             echo "<br>";
         } 
     }
@@ -84,14 +87,15 @@ class Car implements ForCar
     public function getPriceWithFuel93()
     {
         
-        if ($this->fuel[2] == 93){ echo "Цена мазды с бензином 93: ", $this->price - ($this->price * $this->discount[1] / 100), '$';
+        if ($this->fuel[2] == 93)
+        { 
+            echo "Цена мазды с бензином 93: ", $this->price - ($this->price * $this->discount[1] / 100), '$';
             echo "<br>";
         }
     }
 
     public function getPriceForOthers()
     {
-        
          echo $this->price - ($this->price * $this->discount[3] / 100), '$';
     }
 
@@ -117,16 +121,17 @@ echo "<br>";
 echo 'Количество колес по умолчанию:', Car::WHEELS, '<br>';
 echo 'Максимальная скорость: ', $bmw->getMaxSpeed(), 'км/ч';
 
-interface ForTV {
-    public function __construct($model, $color, $diagonale, $price);           //добавлен интерфейс-----------------
+interface ForTV 
+{
+    public function __construct($model, $color, $diagonale, $price);
 }
 
 class TV implements ForTV
 {
     public $model;
     public $color;
-    public $diagonale;   #в дюймах
-    public $price;   #цена в долларах
+    public $diagonale;
+    public $price;
     public $matrix = 'ЖК';
 
     public function __construct($model, $color, $diagonale, $price)
@@ -143,7 +148,8 @@ echo '<hr>';
 $samsung = new TV('Samsung', 'Красный', 25, 500);
 $lg = new TV('LG', 'Черный', 30, 900);
 
-interface ForPen {
+interface ForPen 
+{
     public function setColor($color);
     public function __construct();
 }
@@ -151,7 +157,7 @@ interface ForPen {
 class Pen implements ForPen
 {
     public $color= 'Синий';
-    public $price = 1;   #цена в долларах
+    public $price = 1;
     public static $how = 0;
     public $part = 0;
 
@@ -167,16 +173,17 @@ class Pen implements ForPen
 
     public function getPart()
     {   
-        if ($this->part>=0) {
-        echo '<br>Партия №: ', $this->part++;} //как тут сделать чтобы каждая партия считалась за 1 и прибавла +1 к следующей?
+            for ($i = 0; $i < count(Pen::$how); $i++) 
+            {
+                echo '<br>Партия №: '.$i;
+            }
     }
 }
 
 $pen1 = new Pen();
 $pen1->setColor('Голубой');
 echo '<hr><br>Цвет ручки: ', $pen1->color;
-echo $pen1->getPart(); //как тут сделать чтобы каждая партия считалась за 1 и прибавла +1 к следующей?
-
+echo $pen1->getPart();
 $pen2 = new Pen();
 $pen2->setColor('Красный');
 echo '<br>Цвет ручки: ', $pen2->color;
@@ -185,9 +192,10 @@ echo $pen2->getPart();
 echo '<br><strong>На данный момент выпущено партий по 100 шт: ', Pen::$how, '</strong>';
 
 
-interface ForDuck {
+interface ForDuck 
+{
     public function getAllStats();
-    public function setAnotherStats($name, $color, $sex, $status, $age);   //добавлен интерфейс-----------------
+    public function setAnotherStats($name, $color, $sex, $status, $age);
 }
 
 class Duck implements ForDuck
@@ -226,12 +234,13 @@ $duckDefault1 = new Duck();
 echo $duckDefault1->getAllStats();
 
 
-interface ForProduct {
+interface ForProduct 
+{
 
-    public function getPriceWithDiscount();  // добавлен интерфейс ----------
+    public function getPriceWithDiscount();
 }
 
-class Product extends ForAll implements ForProduct
+class Product extends All implements ForProduct
 {
     public $title= 'Тут название товара';
     public $about = 'О товаре';
@@ -259,7 +268,7 @@ class Product extends ForAll implements ForProduct
     {
         if ($this->price>0)
         {
-             echo "<br>Цена: ", $this->price - ($this->price * $this->discount / 100), 'руб';
+            echo "<br>Цена: ", $this->price - ($this->price * $this->discount / 100), 'руб';
             echo "<br>";
         }
     }
@@ -269,10 +278,15 @@ class Product extends ForAll implements ForProduct
         $this->status = $status;
     }
 
-    public function getButton(){
-        if ($this->status == 'В наличии') {
+    public function getButton()
+    {
+        if ($this->status == 'В наличии') 
+        {
             echo 'Телефон есть в наличии на складе <br><strong>', $this->buttonBuy, '<br>', '</strong>';
-        } else { echo $this->status;}
+        } else 
+            { 
+                echo $this->status;
+            }
     }
 }
 
@@ -282,9 +296,9 @@ echo $iphone8->getStatus('В наличии');
 echo $iphone8->getButton();
 
 $iphone8->setNameForAll('Смартфон<br>');
-$iphone8->setWTF('высокотехнологичное устройство<br>');   //---добавлено полсе из суперкласса-------------
+$iphone8->setWhatIsIt('высокотехнологичное устройство<br>');
 echo $iphone8->getNameForAll();
-echo $iphone8->getWTF();
+echo $iphone8->getWhatIsIt();
 
 
 $iphone10 = new Product('iphone 10', 'Новый инновационный смартфон от яблока, еще круче предыдущего', 110000, 0);
